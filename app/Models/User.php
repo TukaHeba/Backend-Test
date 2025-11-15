@@ -24,6 +24,14 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that are not mass assignable
+     * @var array
+     */
+    protected $guarded = [
+        'role'
+    ];
+
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>
@@ -44,5 +52,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the orders for the user
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Get the cart for the user
+     */
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
     }
 }
