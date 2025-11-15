@@ -19,6 +19,18 @@ class OrderItem extends Model
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'price' => 'float',
+        ];
+    }
+
+    /**
      * Get the order that owns the order item
      */
     public function order()
@@ -32,5 +44,13 @@ class OrderItem extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * Calculate the subtotal
+     */
+    public function getSubtotal(): float
+    {
+        return $this->quantity * $this->price;
     }
 }

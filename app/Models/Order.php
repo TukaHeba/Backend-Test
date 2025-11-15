@@ -27,6 +27,18 @@ class Order extends Model
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'total' => 'float',
+        ];
+    }
+
+    /**
      * Get the user that owns the order
      */
     public function user()
@@ -41,4 +53,5 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
 }

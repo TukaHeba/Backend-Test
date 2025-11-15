@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Product extends Model
 {
@@ -30,6 +31,18 @@ class Product extends Model
     protected $guarded = [
         'slug'
     ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'price' => 'float',
+        ];
+    }
 
     /**
      * Get the categories that belong to the product
@@ -61,5 +74,97 @@ class Product extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * Scope a query to only include active products
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    /**
+     * Scope a query to only include products in stock
+     */
+    public function scopeInStock($query)
+    {
+        return $query->where('quantity', '>', 0);
+    }
+
+    /**
+     * Scope a query to only include products out of stock
+     */
+    public function scopeOutOfStock($query)
+    {
+        return $query->where('quantity', 0);
+    }
+
+    /**
+     * Scope a query to only include products with low stock 
+     */
+    public function scopeLowStock($query)
+    {
+        return $query->whereBetween('quantity', [1, 10]);
+    }
+
+    /**
+     * Scope a query to only include available products
+     */
+    public function scopeAvailable($query)
+    {
+        return $query->active()->inStock();
+    }
+
+    /**
+     * Scope a query to filter products by category
+     */
+    public function scopeCategory($query, $categorySlug)
+    {
+        return $query->whereHas('categories', function ($q) use ($categorySlug) {
+            $q->where('slug', $categorySlug);
+        });
+    }
+
+    /**
+     * Scope a query to filter products by minimum price
+     */
+    public function scopePriceMin($query, $min)
+    {
+        return $query->where('price', '>=', $min);
+    }
+
+    /**
+     * Scope a query to filter products by maximum price
+     */
+    public function scopePriceMax($query, $max)
+    {
+        return $query->where('price', '<=', $max);
+    }
+
+    /**
+     * Scope a query to filter products by price range
+     */
+    public function scopePriceRange($query, $min, $max)
+    {
+        return $query->whereBetween('price', [$min, $max]);
+    }
+
+    /**
+     * Scope a query to search products by name
+     */
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('name', 'like', "%{$search}%");
+    }
+
+    /**
+     * Get the price formatted attribute
+     */
+    public function priceFormatted(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => number_format($this->price, 2) . ' $',
+        );
     }
 }
