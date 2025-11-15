@@ -30,4 +30,12 @@ class Category extends Model
     {
         return $this->belongsToMany(Product::class)->withTimestamps();
     }
+
+    /**
+     * Get the route key for the model
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }
