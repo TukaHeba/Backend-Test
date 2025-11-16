@@ -9,6 +9,8 @@ use App\Observers\OrderObserver;
 use App\Observers\ProductObserver;
 use App\Observers\CategoryObserver;
 use App\Policies\ProductPolicy;
+use App\Policies\OrderPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,5 +35,6 @@ class AppServiceProvider extends ServiceProvider
 
         // Register policies
         Gate::policy(Product::class, ProductPolicy::class);
+        Gate::policy(Order::class, OrderPolicy::class);
     }
 }

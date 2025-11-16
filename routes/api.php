@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\v1\AuthController;
 use App\Http\Controllers\v1\ProductController;
 use App\Http\Controllers\v1\CategoryController;
+use App\Http\Controllers\v1\OrderController;
+use App\Http\Controllers\v1\CartController;
 
 Route::prefix('v1')->middleware('throttle:60,1')->group(function () {
     // Auth routes
@@ -36,6 +38,15 @@ Route::prefix('v1')->middleware('throttle:60,1')->group(function () {
         Route::delete('/categories/{category:slug}', 'destroy')->middleware('auth:sanctum', 'role:admin');
     });
 
+    // Order routes
+    Route::controller(OrderController::class)->middleware('auth:sanctum')->group(function () {
+        Route::get('/orders', 'index');
+        Route::get('/orders/{order}', 'show');
+        Route::post('/orders', 'store');
+        Route::patch('/orders/{order}/cancel', 'cancel');
+    });
+
+    // Cart routes
     Route::controller(CartController::class)->middleware('auth:sanctum')->group(function () {
         Route::get('/cart', 'index');
         Route::post('/cart', 'store');

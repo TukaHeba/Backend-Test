@@ -54,4 +54,45 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    /**
+     * Calculate total from order items using their getSubtotal() method
+     *
+     * @return float
+     */
+    public function calculateTotalFromItems(): float
+    {
+        return $this->loadMissing('orderItems')
+            ->orderItems
+            ->sum(fn($item) => $item->getSubtotal());
+    }
+
+    /**
+     * Scope a query to only include cancelled orders
+     */
+    public function scopeCancelled($query)
+    {
+        return $query->where('status', 'cancelled');
+    }
+
+    /**
+     * Scope a query to only include orders older than the given date
+     */
+    public function scopeOlderThan($query, $date)
+    {
+        return $query->where('updated_at', '<', $date);
+    }
+
+    /**
+     * Check if the order is cancelled
+     *
+     * @return bool
+     */
+    public function isCancelled(): bool
+    {
+        return $this->status === 'cancelled';
+    }
+    public function isCompleted(): bool
+    {
+        return $this->status === 'completed';
+    }
 }
