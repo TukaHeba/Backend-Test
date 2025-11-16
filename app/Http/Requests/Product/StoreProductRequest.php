@@ -40,7 +40,7 @@ class StoreProductRequest extends BaseFormRequest
             'description' => 'nullable|string|max:1000',
             'price' => 'required|numeric|min:0|max:999999.99',
             'quantity' => 'required|integer|min:0',
-            'status' => 'required|enum:active,inactive',
+            'status' => 'required|in:active,inactive',
             'categories' => 'required|array|min:1',
             'categories.*' => 'exists:categories,id',
         ];
