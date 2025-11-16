@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Product;
 
 use App\Http\Requests\BaseFormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreProductRequest extends BaseFormRequest
 {
@@ -17,8 +16,9 @@ class StoreProductRequest extends BaseFormRequest
 
     /**
      * Prepare the data for validation.
-     * 
+     *
      * Capitalize the first letter and trim white spaces if provided
+     *
      * @return void
      */
     protected function prepareForValidation()
@@ -71,4 +71,3 @@ class StoreProductRequest extends BaseFormRequest
         ];
     }
 }
-

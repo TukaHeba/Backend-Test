@@ -23,7 +23,7 @@ class Order extends Model
      * @var array<int, string>
      */
     protected $guarded = [
-        'order_number'
+        'order_number',
     ];
 
     /**
@@ -56,14 +56,12 @@ class Order extends Model
 
     /**
      * Calculate total from order items using their getSubtotal() method
-     *
-     * @return float
      */
     public function calculateTotalFromItems(): float
     {
         return $this->loadMissing('orderItems')
             ->orderItems
-            ->sum(fn($item) => $item->getSubtotal());
+            ->sum(fn ($item) => $item->getSubtotal());
     }
 
     /**
@@ -84,13 +82,12 @@ class Order extends Model
 
     /**
      * Check if the order is cancelled
-     *
-     * @return bool
      */
     public function isCancelled(): bool
     {
         return $this->status === 'cancelled';
     }
+
     public function isCompleted(): bool
     {
         return $this->status === 'completed';

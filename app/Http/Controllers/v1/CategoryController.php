@@ -22,9 +22,6 @@ class CategoryController extends Controller
 
     /**
      * Display a listing of categories with pagination.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
@@ -37,9 +34,6 @@ class CategoryController extends Controller
 
     /**
      * Display the specified category.
-     *
-     * @param Category $category
-     * @return JsonResponse
      */
     public function show(Category $category): JsonResponse
     {
@@ -50,9 +44,6 @@ class CategoryController extends Controller
 
     /**
      * Store a newly created category.
-     *
-     * @param StoreCategoryRequest $request
-     * @return JsonResponse
      */
     public function store(StoreCategoryRequest $request): JsonResponse
     {
@@ -63,10 +54,6 @@ class CategoryController extends Controller
 
     /**
      * Update the specified category.
-     *
-     * @param UpdateCategoryRequest $request
-     * @param Category $category
-     * @return JsonResponse
      */
     public function update(UpdateCategoryRequest $request, Category $category): JsonResponse
     {
@@ -77,9 +64,6 @@ class CategoryController extends Controller
 
     /**
      * Remove the specified category.
-     *
-     * @param Category $category
-     * @return JsonResponse
      */
     public function destroy(Category $category): JsonResponse
     {
@@ -88,4 +72,3 @@ class CategoryController extends Controller
         return self::success(null, 'Category deleted successfully');
     }
 }
-

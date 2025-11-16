@@ -11,9 +11,6 @@ class AuthService
 {
     /**
      * Register a new user and return a token.
-     *
-     * @param array $data
-     * @return array
      */
     public function register(array $data): array
     {
@@ -39,15 +36,13 @@ class AuthService
     /**
      * Authenticate a user and return a token.
      *
-     * @param array $data
-     * @return array
      * @throws ValidationException
      */
     public function login(array $data): array
     {
         $user = User::where('email', $data['email'])->first();
 
-        if (!$user || !Hash::check($data['password'], $user->password)) {
+        if (! $user || ! Hash::check($data['password'], $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
@@ -64,9 +59,6 @@ class AuthService
 
     /**
      * Log out the authenticated user.
-     *
-     * @param User $user
-     * @return void
      */
     public function logout(User $user): void
     {

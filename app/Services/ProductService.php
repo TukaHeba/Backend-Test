@@ -3,17 +3,13 @@
 namespace App\Services;
 
 use App\Models\Product;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 
 class ProductService
 {
     /**
      * Get paginated products with filtering
-     *
-     * @param array $filters
-     * @param int $perPage
-     * @return LengthAwarePaginator
      */
     public function getProducts(array $filters = [], int $perPage = 15): LengthAwarePaginator
     {
@@ -55,32 +51,26 @@ class ProductService
 
             return $query->paginate($perPage);
         } catch (\Exception $e) {
-            Log::error('Failed to retrieve products: ' . $e->getMessage());
+            Log::error('Failed to retrieve products: '.$e->getMessage());
             throw new \Exception('An error occurred on the server.');
         }
     }
 
     /**
      * Get a single product
-     *
-     * @param Product $product
-     * @return Product
      */
     public function getProduct(Product $product): Product
     {
         try {
             return $product->load('categories');
         } catch (\Exception $e) {
-            Log::error('Failed to retrieve product: ' . $e->getMessage());
+            Log::error('Failed to retrieve product: '.$e->getMessage());
             throw new \Exception('An error occurred on the server.');
         }
     }
 
     /**
      * Create a new product
-     *
-     * @param array $data
-     * @return Product
      */
     public function createProduct(array $data): Product
     {
@@ -94,17 +84,13 @@ class ProductService
 
             return $product->load('categories');
         } catch (\Exception $e) {
-            Log::error('Failed to create product: ' . $e->getMessage());
+            Log::error('Failed to create product: '.$e->getMessage());
             throw new \Exception('An error occurred on the server.');
         }
     }
 
     /**
      * Update a product
-     *
-     * @param Product $product
-     * @param array $data
-     * @return Product
      */
     public function updateProduct(Product $product, array $data): Product
     {
@@ -120,32 +106,26 @@ class ProductService
 
             return $product->load('categories');
         } catch (\Exception $e) {
-            Log::error('Failed to update product: ' . $e->getMessage());
+            Log::error('Failed to update product: '.$e->getMessage());
             throw new \Exception('An error occurred on the server.');
         }
     }
 
     /**
      * Delete a product (soft delete)
-     *
-     * @param Product $product
-     * @return bool
      */
     public function deleteProduct(Product $product): bool
     {
         try {
             return $product->delete();
         } catch (\Exception $e) {
-            Log::error('Failed to delete product: ' . $e->getMessage());
+            Log::error('Failed to delete product: '.$e->getMessage());
             throw new \Exception('An error occurred on the server.');
         }
     }
 
     /**
      * Get paginated trashed products
-     *
-     * @param int $perPage
-     * @return LengthAwarePaginator
      */
     public function getTrashedProducts(int $perPage = 15): LengthAwarePaginator
     {
@@ -153,39 +133,33 @@ class ProductService
             return Product::onlyTrashed()->with('categories')
                 ->paginate($perPage);
         } catch (\Exception $e) {
-            Log::error('Failed to retrieve trashed products: ' . $e->getMessage());
+            Log::error('Failed to retrieve trashed products: '.$e->getMessage());
             throw new \Exception('An error occurred on the server.');
         }
     }
 
     /**
      * Restore a soft-deleted product
-     *
-     * @param Product $product
-     * @return bool
      */
     public function restoreProduct(Product $product): bool
     {
         try {
             return $product->restore();
         } catch (\Exception $e) {
-            Log::error('Failed to restore product: ' . $e->getMessage());
+            Log::error('Failed to restore product: '.$e->getMessage());
             throw new \Exception('An error occurred on the server.');
         }
     }
 
     /**
      * Permanently delete a product
-     *
-     * @param Product $product
-     * @return bool
      */
     public function forceDeleteProduct(Product $product): bool
     {
         try {
             return $product->forceDelete();
         } catch (\Exception $e) {
-            Log::error('Failed to force delete product: ' . $e->getMessage());
+            Log::error('Failed to force delete product: '.$e->getMessage());
             throw new \Exception('An error occurred on the server.');
         }
     }

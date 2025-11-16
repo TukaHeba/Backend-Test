@@ -34,13 +34,15 @@ class OrdersCleanupCancelled extends Command
 
         if ($ordersToDelete === 0) {
             $this->info('No cancelled orders found older than 30 days.');
+
             return Command::SUCCESS;
         }
 
         $this->info("Found {$ordersToDelete} cancelled order(s) older than 30 days.");
 
-        if (!$this->option('force') && !$this->confirm('Do you want to delete these orders?', true)) {
+        if (! $this->option('force') && ! $this->confirm('Do you want to delete these orders?', true)) {
             $this->info('Cleanup cancelled.');
+
             return Command::SUCCESS;
         }
 

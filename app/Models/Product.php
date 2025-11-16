@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Product extends Model
 {
@@ -29,7 +29,7 @@ class Product extends Model
      * @var array<int, string>
      */
     protected $guarded = [
-        'slug'
+        'slug',
     ];
 
     /**
@@ -101,7 +101,7 @@ class Product extends Model
     }
 
     /**
-     * Scope a query to only include products with low stock 
+     * Scope a query to only include products with low stock
      */
     public function scopeLowStock($query)
     {
@@ -164,7 +164,7 @@ class Product extends Model
     public function priceFormatted(): Attribute
     {
         return Attribute::make(
-            get: fn () => number_format($this->price, 2) . ' $',
+            get: fn () => number_format($this->price, 2).' $',
         );
     }
 }

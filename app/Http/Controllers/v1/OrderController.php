@@ -23,43 +23,34 @@ class OrderController extends Controller
     /**
      * Display a listing of the user's orders.
      * Admins can see all orders.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
         $this->authorize('viewAny', Order::class);
         $perPage = $request->input('per_page', 15);
-        
+
         $user = Auth::user();
         $userId = $user->role === 'admin' ? null : $user->id;
-        
+
         $orders = $this->orderService->getOrders($userId, $perPage);
-        
+
         return self::paginated($orders, OrderResource::class, 'Orders retrieved successfully');
     }
 
     /**
      * Display the specified order.
-     *
-     * @param Order $order
-     * @return JsonResponse
      */
     public function show(Order $order): JsonResponse
     {
         $this->authorize('view', $order);
-        
+
         $order = $this->orderService->getOrder($order);
-        
+
         return self::success(new OrderResource($order), 'Order retrieved successfully');
     }
 
     /**
      * Store a newly created order.
-     *
-     * @param StoreOrderRequest $request
-     * @return JsonResponse
      */
     public function store(StoreOrderRequest $request): JsonResponse
     {
@@ -72,9 +63,6 @@ class OrderController extends Controller
 
     /**
      * Cancel the specified order.
-     *
-     * @param Order $order
-     * @return JsonResponse
      */
     public function cancel(Order $order): JsonResponse
     {
@@ -85,4 +73,3 @@ class OrderController extends Controller
         return self::success(new OrderResource($order), 'Order cancelled successfully');
     }
 }
-

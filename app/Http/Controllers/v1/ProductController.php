@@ -22,9 +22,6 @@ class ProductController extends Controller
 
     /**
      * Display a listing of products with pagination and filtering.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
@@ -32,26 +29,22 @@ class ProductController extends Controller
         $perPage = $request->input('per_page', 15);
 
         $products = $this->productService->getProducts($filters, $perPage);
+
         return self::paginated($products, ProductResource::class, 'Products retrieved successfully');
     }
 
     /**
      * Display the specified product.
-     *
-     * @param Product $product
-     * @return JsonResponse
      */
     public function show(Product $product): JsonResponse
     {
         $product->load('categories');
+
         return self::success(new ProductResource($product), 'Product retrieved successfully');
     }
 
     /**
      * Store a newly created product.
-     *
-     * @param StoreProductRequest $request
-     * @return JsonResponse
      */
     public function store(StoreProductRequest $request): JsonResponse
     {
@@ -64,10 +57,6 @@ class ProductController extends Controller
 
     /**
      * Update the specified product.
-     *
-     * @param UpdateProductRequest $request
-     * @param Product $product
-     * @return JsonResponse
      */
     public function update(UpdateProductRequest $request, Product $product): JsonResponse
     {
@@ -80,9 +69,6 @@ class ProductController extends Controller
 
     /**
      * Remove the specified product.
-     *
-     * @param Product $product
-     * @return JsonResponse
      */
     public function destroy(Product $product): JsonResponse
     {
@@ -95,9 +81,6 @@ class ProductController extends Controller
 
     /**
      * Display a listing of trashed products.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function trashed(Request $request): JsonResponse
     {
@@ -111,9 +94,6 @@ class ProductController extends Controller
 
     /**
      * Restore the specified trashed product.
-     *
-     * @param string $slug
-     * @return JsonResponse
      */
     public function restore(string $slug): JsonResponse
     {
@@ -129,9 +109,6 @@ class ProductController extends Controller
 
     /**
      * Permanently delete the specified product.
-     *
-     * @param string $slug
-     * @return JsonResponse
      */
     public function forceDelete(string $slug): JsonResponse
     {

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Models\Product;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Cart\StoreCartItemRequest;
+use App\Http\Resources\CartResource;
 use App\Models\CartItem;
+use App\Models\Product;
 use App\Services\CartService;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\CartResource;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Cart\StoreCartItemRequest;
 
 class CartController extends Controller
 {
@@ -22,8 +22,6 @@ class CartController extends Controller
 
     /**
      * Display the user's cart.
-     *
-     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -34,9 +32,6 @@ class CartController extends Controller
 
     /**
      * Add a product to the cart.
-     *
-     * @param StoreCartItemRequest $request
-     * @return JsonResponse
      */
     public function store(StoreCartItemRequest $request): JsonResponse
     {
@@ -54,9 +49,6 @@ class CartController extends Controller
 
     /**
      * Remove a product from the cart.
-     *
-     * @param CartItem $cartItem
-     * @return JsonResponse
      */
     public function destroy(CartItem $cartItem): JsonResponse
     {
@@ -67,8 +59,6 @@ class CartController extends Controller
 
     /**
      * Clear all items from the cart.
-     *
-     * @return JsonResponse
      */
     public function clear(): JsonResponse
     {

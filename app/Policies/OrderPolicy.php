@@ -12,7 +12,7 @@ class OrderPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true; 
+        return true;
     }
 
     /**
@@ -39,4 +39,3 @@ class OrderPolicy
         return $user->role === 'admin' || $user->id === $order->user_id;
     }
 }
-

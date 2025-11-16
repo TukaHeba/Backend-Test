@@ -16,8 +16,9 @@ class LoginRequest extends BaseFormRequest
 
     /**
      * Prepare the data for validation.
-     * 
+     *
      * Lowercase and trim email if provided
+     *
      * @return void
      */
     protected function prepareForValidation()

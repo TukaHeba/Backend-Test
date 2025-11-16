@@ -14,7 +14,7 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         $categories = Category::all();
-        
+
         $products = [
             ['name' => 'Laptop Computer', 'description' => 'High-performance laptop for work and gaming', 'price' => 999.99, 'quantity' => 15, 'status' => 'active'],
             ['name' => 'Wireless Mouse', 'description' => 'Ergonomic wireless mouse with long battery life', 'price' => 29.99, 'quantity' => 50, 'status' => 'active'],
@@ -40,7 +40,7 @@ class ProductSeeder extends Seeder
 
         foreach ($products as $productData) {
             $product = Product::create($productData);
-            
+
             // Attach product to 1-3 random categories
             $product->categories()->attach(
                 $categories->random(rand(1, 3))->pluck('id')->toArray()

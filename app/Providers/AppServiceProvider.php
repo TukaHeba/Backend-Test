@@ -2,14 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\Category;
+use App\Observers\CategoryObserver;
 use App\Observers\OrderObserver;
 use App\Observers\ProductObserver;
-use App\Observers\CategoryObserver;
-use App\Policies\ProductPolicy;
 use App\Policies\OrderPolicy;
+use App\Policies\ProductPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 

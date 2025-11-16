@@ -6,9 +6,9 @@ use App\Jobs\SendOrderConfirmationEmail;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class OrderService
@@ -16,10 +16,6 @@ class OrderService
     /**
      * Get paginated orders for a user
      * If $userId is null, returns all orders
-     *
-     * @param int|null $userId
-     * @param int $perPage
-     * @return LengthAwarePaginator
      */
     public function getOrders(?int $userId, int $perPage = 15): LengthAwarePaginator
     {
@@ -33,23 +29,20 @@ class OrderService
 
             return $query->latest()->paginate($perPage);
         } catch (\Exception $e) {
-            Log::error('Failed to retrieve orders: ' . $e->getMessage());
+            Log::error('Failed to retrieve orders: '.$e->getMessage());
             throw new \Exception('An error occurred on the server.');
         }
     }
 
     /**
      * Get a single order
-     *
-     * @param Order $order
-     * @return Order
      */
     public function getOrder(Order $order): Order
     {
         try {
             return $order->load(['orderItems.product', 'user']);
         } catch (\Exception $e) {
-            Log::error('Failed to retrieve order: ' . $e->getMessage());
+            Log::error('Failed to retrieve order: '.$e->getMessage());
             throw new \Exception('An error occurred on the server.');
         }
     }
@@ -57,9 +50,7 @@ class OrderService
     /**
      * Create a new order with database transaction
      *
-     * @param int $userId
-     * @param array $items Array of items with product_id and quantity
-     * @return Order
+     * @param  array  $items  Array of items with product_id and quantity
      */
     public function createOrder(int $userId, array $items): Order
     {
@@ -67,7 +58,7 @@ class OrderService
             return DB::transaction(function () use ($userId, $items) {
                 // Extract product IDs from items
                 $productIds = collect($items)->pluck('product_id');
-                
+
                 // Fetch and lock products to prevent race conditions
                 $products = Product::whereIn('id', $productIds)
                     ->available()
@@ -124,16 +115,13 @@ class OrderService
         } catch (HttpException $e) {
             throw $e;
         } catch (\Exception $e) {
-            Log::error('Failed to create order: ' . $e->getMessage());
+            Log::error('Failed to create order: '.$e->getMessage());
             throw new \Exception('An error occurred on the server.');
         }
     }
 
     /**
      * Cancel an order
-     *
-     * @param Order $order
-     * @return Order
      */
     public function cancelOrder(Order $order): Order
     {
@@ -158,7 +146,7 @@ class OrderService
         } catch (HttpException $e) {
             throw $e;
         } catch (\Exception $e) {
-            Log::error('Failed to cancel order: ' . $e->getMessage());
+            Log::error('Failed to cancel order: '.$e->getMessage());
             throw new \Exception('An error occurred on the server.');
         }
     }

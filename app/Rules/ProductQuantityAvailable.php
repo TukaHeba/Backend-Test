@@ -18,31 +18,31 @@ class ProductQuantityAvailable implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
      * @param  \Closure(string, ?string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
-     * @return void
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         // Extract item index from attribute
-        if (!preg_match('/items\.(\d+)\.quantity/', $attribute, $matches)) {
+        if (! preg_match('/items\.(\d+)\.quantity/', $attribute, $matches)) {
             $fail('Invalid item index.');
+
             return;
         }
 
         $index = (int) $matches[1];
         $productId = $this->items[$index]['product_id'] ?? null;
 
-        if (!$productId) {
+        if (! $productId) {
             $fail('Product ID is required for this item.');
+
             return;
         }
 
         $product = Product::available()->find($productId);
 
-        if (!$product) {
+        if (! $product) {
             $fail('The product is not available or out of stock.');
+
             return;
         }
 
@@ -52,4 +52,3 @@ class ProductQuantityAvailable implements ValidationRule
         }
     }
 }
-

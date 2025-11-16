@@ -59,4 +59,3 @@ class StoreOrderRequest extends BaseFormRequest
         ];
     }
 }
-

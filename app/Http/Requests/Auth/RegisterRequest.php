@@ -16,8 +16,9 @@ class RegisterRequest extends BaseFormRequest
 
     /**
      * Prepare the data for validation.
-     * 
+     *
      * Capitalize the first letter and trim white spaces if provided
+     *
      * @return void
      */
     protected function prepareForValidation()

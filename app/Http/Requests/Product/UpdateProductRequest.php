@@ -12,7 +12,7 @@ class UpdateProductRequest extends BaseFormRequest
      */
     public function authorize(): bool
     {
-        return true; 
+        return true;
     }
 
     /**
@@ -58,4 +58,3 @@ class UpdateProductRequest extends BaseFormRequest
         ];
     }
 }
-

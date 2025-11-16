@@ -18,7 +18,7 @@ return new class extends Migration
             $table->decimal('total', 10, 2);
             $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
-            
+
             $table->index('status');
             $table->index('created_at');
         });
