@@ -30,4 +30,16 @@ class Cart extends Model
     {
         return $this->hasMany(CartItem::class);
     }
+
+    /**
+     * Calculate total from cart items using their getSubtotal() method
+     *
+     * @return float
+     */
+    public function getTotal(): float
+    {
+        return $this->loadMissing('cartItems')
+            ->cartItems
+            ->sum(fn($item) => $item->getSubtotal());
+    }
 }

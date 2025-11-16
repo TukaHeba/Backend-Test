@@ -35,4 +35,11 @@ Route::prefix('v1')->middleware('throttle:60,1')->group(function () {
         Route::put('/categories/{category:slug}', 'update')->middleware('auth:sanctum', 'role:admin');
         Route::delete('/categories/{category:slug}', 'destroy')->middleware('auth:sanctum', 'role:admin');
     });
+
+    Route::controller(CartController::class)->middleware('auth:sanctum')->group(function () {
+        Route::get('/cart', 'index');
+        Route::post('/cart', 'store');
+        Route::delete('/cart', 'clear');
+        Route::delete('/cart/{cartItem}', 'destroy');
+    });
 });

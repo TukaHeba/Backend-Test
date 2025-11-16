@@ -47,6 +47,16 @@ class CartItem extends Model
     }
 
     /**
+     * Scope to filter cart items by user ID
+     */
+    public function scopeUserCartItems($query, int $userId)
+    {
+        return $query->whereHas('cart', function ($q) use ($userId) {
+            $q->where('user_id', $userId);
+        });
+    }
+
+    /**
      * Calculate the subtotal
      */
     public function getSubtotal(): float
